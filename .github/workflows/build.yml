@@ -1,0 +1,118 @@
+
+name: build-signed-apk
+
+on:
+  workflow_dispatch:
+    inputs:
+      mirror_pack:
+        description: 'Also mirror the 4.68 GiB model pack into the release (for offline sideloading)'
+        type: choice
+        options: ['true', 'false']
+        default: 'true'
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+
+      - uses: android-actions/setup-android@v3
+
+      - name: Install Android SDK packages
+        run: |
+          yes | sdkmanager --licenses > /dev/null || true
+          sdkmanager "platform-tools" "platforms;android-34" "build-tools;35.0.0"
+
+      - uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: '8.7'
+          cache-disabled: true
+
+      - name: Build release APK (unsigned)
+        run: gradle --no-daemon :app:assembleRelease
+
+      - name: zipalign + apksigner (key generated here, no secrets needed)
+        run: |
+          set -euo pipefail
+          BT=$(ls -d "$ANDROID_HOME"/build-tools/* | sort -V | tail -1)
+          echo "build-tools: $BT"
+          mkdir -p dist
+          keytool -genkeypair -v -keystore dist/auto.jks -alias auto \
+            -keyalg RSA -keysize 2048 -validity 10950 \
+            -storepass android -keypass android \
+            -dname "CN=OfflineDraw, OU=Auto, O=Auto, L=NA, ST=NA, C=US"
+          APK=$(ls app/build/outputs/apk/release/*.apk | head -1)
+          "$BT/zipalign" -p -f 4 "$APK" dist/aligned.apk
+          "$BT/apksigner" sign --ks dist/auto.jks --ks-pass pass:android --key-pass pass:android \
+            --v1-signing-enabled true --v2-signing-enabled true --v3-signing-enabled true \
+            --out dist/OfflineDraw-signed.apk dist/aligned.apk
+          "$BT/apksigner" verify --verbose --print-certs dist/OfflineDraw-signed.apk
+          (cd dist && sha256sum OfflineDraw-signed.apk > SHA256SUMS.txt)
+          ls -l dist
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: OfflineDraw-signed-apk
+          path: dist/*
+          retention-days: 30
+
+      - name: Free disk space
+        if: github.event.inputs.mirror_pack == 'true'
+        run: |
+          sudo rm -rf /usr/share/dotnet /usr/local/lib/android/sdk/ndk /opt/ghc /usr/share/swift || true
+          df -h /
+
+      - name: Mirror model pack from Hugging Face
+        if: github.event.inputs.mirror_pack == 'true'
+        run: |
+          python3 -m pip install --quiet "huggingface_hub>=0.24"
+          python3 - <<'PY'
+          from huggingface_hub import snapshot_download
+          snapshot_download("frankdu/SD-Turbo-LiteRT",
+                            allow_patterns=["graphs/*", "constants/*", "tokenizer0/bpe.json",
+                                            "manifest.json", "LICENSE.md", "SOURCE_MODEL_CARD.md", "NOTICE"],
+                            local_dir="pack", max_workers=4)
+          PY
+          du -sh pack
+          df -h /
+
+      - name: Collect release files
+        id: assets
+        run: |
+          {
+            echo 'list<<EOF'
+            echo dist/OfflineDraw-signed.apk
+            echo dist/SHA256SUMS.txt
+            echo dist/auto.jks
+            if [ "${{ github.event.inputs.mirror_pack }}" = "true" ]; then
+              ls pack/graphs/*.tflite
+              echo pack/manifest.json
+              echo pack/tokenizer0/bpe.json
+              echo pack/constants/t17.bin
+              echo pack/LICENSE.md
+              echo pack/SOURCE_MODEL_CARD.md
+            fi
+            echo EOF
+          } >> "$GITHUB_OUTPUT"
+
+      - name: Publish release (tag apk)
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: apk
+          name: OfflineDraw signed APK + model pack
+          body: |
+            Signed with a throwaway key generated inside this workflow (apksigner, v1+v2+v3).
+            Install OfflineDraw-signed.apk, then either press "Download pack" in the app once,
+            or copy the graphs into /sdcard/OfflineDraw/bundle/graphs/ for a 100% offline setup.
+          files: ${{ steps.assets.outputs.list }}
+          overwrite_files: true
+          fail_on_unmatched_files: true

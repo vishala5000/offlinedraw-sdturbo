@@ -1,0 +1,3 @@
+This Stability AI Model is licensed under the Stability AI Community License, Copyright © Stability AI Ltd. All Rights Reserved
+
+Changes by frankdu, 2026-10-24: converted the original Diffusers checkpoint to float32 LiteRT graphs using LiteRT Torch; split components into fixed-shape weight-bounded shards; exported scheduler/latent operations and tokenizer fixtures in the word-image-litert-v1 execution plan. No additional training or weight quantization. Companion inference/conversion code is under CODE_LICENSE.

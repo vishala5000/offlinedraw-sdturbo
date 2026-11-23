@@ -1,0 +1,1447 @@
+{
+  "format": "word-image-litert-v1",
+  "modelId": "SD_TURBO",
+  "source": {
+    "repository": "stabilityai/sd-turbo",
+    "revision": "b261bac6fd2cf515557d5d0707481eafa0485ec2",
+    "model": "SD_TURBO",
+    "format": "diffusers"
+  },
+  "width": 512,
+  "height": 512,
+  "steps": 1,
+  "compiled": false,
+  "targetSoc": null,
+  "validation": "cpu-shard-parity-only",
+  "externals": [
+    {
+      "tensor": "t0",
+      "kind": "tokens",
+      "shape": [
+        1,
+        77
+      ],
+      "dtype": "int64",
+      "tokenizer": "tokenizer0/bpe.json"
+    },
+    {
+      "tensor": "t14",
+      "kind": "normal",
+      "shape": [
+        1,
+        4,
+        64,
+        64
+      ],
+      "dtype": "float32"
+    },
+    {
+      "tensor": "t17",
+      "kind": "constant",
+      "path": "constants/t17.bin",
+      "shape": [
+        1
+      ],
+      "dtype": "float32"
+    },
+    {
+      "tensor": "t56",
+      "kind": "normal",
+      "shape": [
+        1,
+        4,
+        64,
+        64
+      ],
+      "dtype": "float32"
+    }
+  ],
+  "actions": [
+    {
+      "model": "graphs/clip0-submod_0.tflite",
+      "signature": "serving_default",
+      "inputs": [
+        {
+          "name": "args_0",
+          "tensor": "t0"
+        }
+      ],
+      "outputs": [
+        {
+          "name": "output_0",
+          "tensor": "t1",
+          "dtype": "float32",
+          "shape": [
+            1,
+            77,
+            1024
+          ]
+        },
+        {
+          "name": "output_1",
+          "tensor": "t2",
+          "dtype": "float32",
+          "shape": [
+            1,
+            77,
+            1024
+          ]
+        },
+        {
+          "name": "output_2",
+          "tensor": "t3",
+          "dtype": "float32",
+          "shape": [
+            1,
+            1,
+            77,
+            77
+          ]
+        },
+        {
+          "name": "output_3",
+          "tensor": "t4",
+          "dtype": "int64",
+          "shape": [
+            1,
+            77
+          ]
+        }
+      ],
+      "phase": "encode",
+      "step": 0,
+      "cpuMaxAbsErrors": [
+        5.245208740234375e-06,
+        9.918212890625e-05,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "model": "graphs/clip0-submod_1.tflite",
+      "signature": "serving_default",
+      "inputs": [
+        {
+          "name": "args_0",
+          "tensor": "t1"
+        },
+        {
+          "name": "args_1",
+          "tensor": "t2"
+        },
+        {
+          "name": "args_2",
+          "tensor": "t3"
+        }
+      ],
+      "outputs": [
+        {
+          "name": "output_0",
+          "tensor": "t5",
+          "dtype": "float32",
+          "shape": [
+            1,
+            77,
+            1024
+          ]
+        },
+        {
+          "name": "output_1",
+          "tensor": "t6",
+          "dtype": "float32",
+          "shape": [
+            1,
+            77,
+            1024
+          ]
+        }
+      ],
+      "phase": "encode",
+      "step": 0,
+      "cpuMaxAbsErrors": [
+        2.0742416381835938e-05,
+        0.000152587890625
+      ]
+    },
+    {
+      "model": "graphs/clip0-submod_2.tflite",
+      "signature": "serving_default",
+      "inputs": [
+        {
+          "name": "args_0",
+          "tensor": "t5"
+        },
+        {
+          "name": "args_1",
+          "tensor": "t6"
+        },
+        {
+          "name": "args_2",
+          "tensor": "t3"
+        }
+      ],
+      "outputs": [
+        {
+          "name": "output_0",
+          "tensor": "t7",
+          "dtype": "float32",
+          "shape": [
+            1,
+            77,
+            1024
+          ]
+        },
+        {
+          "name": "output_1",
+          "tensor": "t8",
+          "dtype": "float32",
+          "shape": [
+            1,
+            77,
+            1024
+          ]
+        }
+      ],
+      "phase": "encode",
+      "step": 0,
+      "cpuMaxAbsErrors": [
+        1.1175870895385742e-05,
+        4.0531158447265625e-06
+      ]
+    },
+    {
+      "model": "graphs/clip0-submod_3.tflite",
+      "signature": "serving_default",
+      "inputs": [
+        {
+          "name": "args_0",
+          "tensor": "t7"
+        },
+        {
+          "name": "args_1",
+          "tensor": "t8"
+        },
+        {
+          "name": "args_2",
+          "tensor": "t3"
+        }
+      ],
+      "outputs": [
+        {
+          "name": "output_0",
+          "tensor": "t9",
+          "dtype": "float32",
+          "shape": [
+            1,
+            77,
+            1024
+          ]
+        },
+        {
+          "name": "output_1",
+          "tensor": "t10",
+          "dtype": "float32",
+          "shape": [
+            1,
+            77,
+            1024
+          ]
+        }
+      ],
+      "phase": "encode",
+      "step": 0,
+      "cpuMaxAbsErrors": [
+        9.5367431640625e-06,
+        4.291534423828125e-06
+      ]
+    },
+    {
+      "model": "graphs/clip0-submod_4.tflite",
+      "signature": "serving_default",
+      "inputs": [
+        {
+          "name": "args_0",
+          "tensor": "t9"
+        },
+        {
+          "name": "args_1",
+          "tensor": "t10"
+        },
+        {
+          "name": "args_2",
+          "tensor": "t3"
+        }
+      ],
+      "outputs": [
+        {
+          "name": "output_0",
+          "tensor": "t11",
+          "dtype": "float32",
+          "shape": [
+            1,
+            77,
+            1024
+          ]
+        },
+        {
+          "name": "output_1",
+          "tensor": "t12",
+          "dtype": "float32",
+          "shape": [
+            1,
+            77,
+            1024
+          ]
+        }
+      ],
+      "phase": "encode",
+      "step": 0,
+      "cpuMaxAbsErrors": [
+        2.47955322265625e-05,
+        7.62939453125e-06
+      ]
+    },
+    {
+      "model": "graphs/clip0-submod_5.tflite",
+      "signature": "serving_default",
+      "inputs": [
+        {
+          "name": "args_0",
+          "tensor": "t11"
+        },
+        {
+          "name": "args_1",
+          "tensor": "t12"
+        },
+        {
+          "name": "args_2",
+          "tensor": "t3"
+        },
+        {
+          "name": "args_3",
+          "tensor": "t4"
+        }
+      ],
+      "outputs": [
+        {
+          "name": "output_0",
+          "tensor": "t13",
+          "dtype": "float32",
+          "shape": [
+            1,
+            77,
+            1024
+          ]
+        }
+      ],
+      "phase": "encode",
+      "step": 0,
+      "cpuMaxAbsErrors": [
+        8.225440979003906e-06
+      ]
+    },
+    {
+      "model": "graphs/initial-submod_0.tflite",
+      "signature": "serving_default",
+      "inputs": [
+        {
+          "name": "args_0",
+          "tensor": "t14"
+        }
+      ],
+      "outputs": [
+        {
+          "name": "output_0",
+          "tensor": "t15",
+          "dtype": "float32",
+          "shape": [
+            1,
+            4,
+            64,
+            64
+          ]
+        }
+      ],
+      "phase": "encode",
+      "step": 0,
+      "cpuMaxAbsErrors": [
+        0.0
+      ]
+    },
+    {
+      "model": "graphs/scale0-submod_0.tflite",
+      "signature": "serving_default",
+      "inputs": [
+        {
+          "name": "args_0",
+          "tensor": "t15"
+        }
+      ],
+      "outputs": [
+        {
+          "name": "output_0",
+          "tensor": "t16",
+          "dtype": "float32",
+          "shape": [
+            1,
+            4,
+            64,
+            64
+          ]
+        }
+      ],
+      "phase": "denoise",
+      "step": 1,
+      "cpuMaxAbsErrors": [
+        0.0
+      ]
+    },
+    {
+      "model": "graphs/unet-submod_0.tflite",
+      "signature": "serving_default",
+      "inputs": [
+        {
+          "name": "args_0",
+          "tensor": "t17"
+        },
+        {
+          "name": "args_1",
+          "tensor": "t16"
+        },
+        {
+          "name": "args_2",
+          "tensor": "t13"
+        }
+      ],
+      "outputs": [
+        {
+          "name": "output_0",
+          "tensor": "t18",
+          "dtype": "float32",
+          "shape": [
+            1,
+            1280,
+            16,
+            16
+          ]
+        },
+        {
+          "name": "output_1",
+          "tensor": "t19",
+          "dtype": "float32",
+          "shape": [
+            1,
+            640,
+            16,
+            16
+          ]
+        },
+        {
+          "name": "output_2",
+          "tensor": "t20",
+          "dtype": "float32",
+          "shape": [
+            1,
+            1280
+          ]
+        },
+        {
+          "name": "output_3",
+          "tensor": "t21",
+          "dtype": "float32",
+          "shape": [
+            1,
+            640,
+            32,
+            32
+          ]
+        },
+        {
+          "name": "output_4",
+          "tensor": "t22",
+          "dtype": "float32",
+          "shape": [
+            1,
+            640,
+            32,
+            32
+          ]
+        },
+        {
+          "name": "output_5",
+          "tensor": "t23",
+          "dtype": "float32",
+          "shape": [
+            1,
+            320,
+            32,
+            32
+          ]
+        },
+        {
+          "name": "output_6",
+          "tensor": "t24",
+          "dtype": "float32",
+          "shape": [
+            1,
+            320,
+            64,
+            64
+          ]
+        },
+        {
+          "name": "output_7",
+          "tensor": "t25",
+          "dtype": "float32",
+          "shape": [
+            1,
+            320,
+            64,
+            64
+          ]
+        },
+        {
+          "name": "output_8",
+          "tensor": "t26",
+          "dtype": "float32",
+          "shape": [
+            1,
+            320,
+            64,
+            64
+          ]
+        }
+      ],
+      "phase": "denoise",
+      "step": 1,
+      "cpuMaxAbsErrors": [
+        1.6242265701293945e-05,
+        9.274482727050781e-05,
+        8.58306884765625e-06,
+        0.00030517578125,
+        3.1948089599609375e-05,
+        1.8596649169921875e-05,
+        1.5974044799804688e-05,
+        1.8596649169921875e-05,
+        7.152557373046875e-07
+      ]
+    },
+    {
+      "model": "graphs/unet-submod_1.tflite",
+      "signature": "serving_default",
+      "inputs": [
+        {
+          "name": "args_0",
+          "tensor": "t18"
+        },
+        {
+          "name": "args_1",
+          "tensor": "t19"
+        },
+        {
+          "name": "args_2",
+          "tensor": "t13"
+        },
+        {
+          "name": "args_3",
+          "tensor": "t20"
+        }
+      ],
+      "outputs": [
+        {
+          "name": "output_0",
+          "tensor": "t27",
+          "dtype": "float32",
+          "shape": [
+            1,
+            1280
+          ]
+        },
+        {
+          "name": "output_1",
+          "tensor": "t28",
+          "dtype": "float32",
+          "shape": [
+            1,
+            1280,
+            16,
+            16
+          ]
+        },
+        {
+          "name": "output_2",
+          "tensor": "t29",
+          "dtype": "float32",
+          "shape": [
+            1,
+            1280,
+            16,
+            16
+          ]
+        }
+      ],
+      "phase": "denoise",
+      "step": 1,
+      "cpuMaxAbsErrors": [
+        4.76837158203125e-07,
+        5.245208740234375e-05,
+        4.1961669921875e-05
+      ]
+    },
+    {
+      "model": "graphs/unet-submod_2.tflite",
+      "signature": "serving_default",
+      "inputs": [
+        {
+          "name": "args_0",
+          "tensor": "t27"
+        },
+        {
+          "name": "args_1",
+          "tensor": "t28"
+        },
+        {
+          "name": "args_2",
+          "tensor": "t29"
+        },
+        {
+          "name": "args_3",
+          "tensor": "t13"
+        }
+      ],
+      "outputs": [
+        {
+          "name": "output_0",
+          "tensor": "t30",
+          "dtype": "float32",
+          "shape": [
+            1,
+            1280,
+            8,
+            8
+          ]
+        },
+        {
+          "name": "output_1",
+          "tensor": "t31",
+          "dtype": "float32",
+          "shape": [
+            1,
+            1280,
+            8,
+            8
+          ]
+        },
+        {
+          "name": "output_2",
+          "tensor": "t32",
+          "dtype": "float32",
+          "shape": [
+            1,
+            1280,
+            16,
+            16
+          ]
+        }
+      ],
+      "phase": "denoise",
+      "step": 1,
+      "cpuMaxAbsErrors": [
+        1.5735626220703125e-05,
+        0.0001373291015625,
+        2.574920654296875e-05
+      ]
+    },
+    {
+      "model": "graphs/unet-submod_3.tflite",
+      "signature": "serving_default",
+      "inputs": [
+        {
+          "name": "args_0",
+          "tensor": "t30"
+        },
+        {
+          "name": "args_1",
+          "tensor": "t20"
+        },
+        {
+          "name": "args_2",
+          "tensor": "t31"
+        }
+      ],
+      "outputs": [
+        {
+          "name": "output_0",
+          "tensor": "t33",
+          "dtype": "float32",
+          "shape": [
+            1,
+            1280,
+            8,
+            8
+          ]
+        },
+        {
+          "name": "output_1",
+          "tensor": "t34",
+          "dtype": "float32",
+          "shape": [
+            1,
+            1280,
+            8,
+            8
+          ]
+        },
+        {
+          "name": "output_2",
+          "tensor": "t35",
+          "dtype": "float32",
+          "shape": [
+            1,
+            1280,
+            8,
+            8
+          ]
+        }
+      ],
+      "phase": "denoise",
+      "step": 1,
+      "cpuMaxAbsErrors": [
+        6.079673767089844e-06,
+        0.000118255615234375,
+        0.0001163482666015625
+      ]
+    },
+    {
+      "model": "graphs/unet-submod_4.tflite",
+      "signature": "serving_default",
+      "inputs": [
+        {
+          "name": "args_0",
+          "tensor": "t33"
+        },
+        {
+          "name": "args_1",
+          "tensor": "t20"
+        },
+        {
+          "name": "args_2",
+          "tensor": "t34"
+        },
+        {
+          "name": "args_3",
+          "tensor": "t13"
+        }
+      ],
+      "outputs": [
+        {
+          "name": "output_0",
+          "tensor": "t36",
+          "dtype": "float32",
+          "shape": [
+            1,
+            1280,
+            8,
+            8
+          ]
+        },
+        {
+          "name": "output_1",
+          "tensor": "t37",
+          "dtype": "float32",
+          "shape": [
+            1,
+            1280,
+            8,
+            8
+          ]
+        }
+      ],
+      "phase": "denoise",
+      "step": 1,
+      "cpuMaxAbsErrors": [
+        2.205371856689453e-06,
+        4.00543212890625e-05
+      ]
+    },
+    {
+      "model": "graphs/unet-submod_5.tflite",
+      "signature": "serving_default",
+      "inputs": [
+        {
+          "name": "args_0",
+          "tensor": "t36"
+        },
+        {
+          "name": "args_1",
+          "tensor": "t20"
+        },
+        {
+          "name": "args_2",
+          "tensor": "t37"
+        },
+        {
+          "name": "args_3",
+          "tensor": "t34"
+        }
+      ],
+      "outputs": [
+        {
+          "name": "output_0",
+          "tensor": "t38",
+          "dtype": "float32",
+          "shape": [
+            1,
+            1280,
+            8,
+            8
+          ]
+        },
+        {
+          "name": "output_1",
+          "tensor": "t39",
+          "dtype": "float32",
+          "shape": [
+            1,
+            2560,
+            8,
+            8
+          ]
+        }
+      ],
+      "phase": "denoise",
+      "step": 1,
+      "cpuMaxAbsErrors": [
+        5.2928924560546875e-05,
+        4.9591064453125e-05
+      ]
+    },
+    {
+      "model": "graphs/unet-submod_6.tflite",
+      "signature": "serving_default",
+      "inputs": [
+        {
+          "name": "args_0",
+          "tensor": "t38"
+        },
+        {
+          "name": "args_1",
+          "tensor": "t39"
+        },
+        {
+          "name": "args_2",
+          "tensor": "t35"
+        },
+        {
+          "name": "args_3",
+          "tensor": "t20"
+        }
+      ],
+      "outputs": [
+        {
+          "name": "output_0",
+          "tensor": "t40",
+          "dtype": "float32",
+          "shape": [
+            1,
+            2560,
+            8,
+            8
+          ]
+        },
+        {
+          "name": "output_1",
+          "tensor": "t41",
+          "dtype": "float32",
+          "shape": [
+            1,
+            1280,
+            8,
+            8
+          ]
+        }
+      ],
+      "phase": "denoise",
+      "step": 1,
+      "cpuMaxAbsErrors": [
+        8.0108642578125e-05,
+        0.000133514404296875
+      ]
+    },
+    {
+      "model": "graphs/unet-submod_7.tflite",
+      "signature": "serving_default",
+      "inputs": [
+        {
+          "name": "args_0",
+          "tensor": "t40"
+        },
+        {
+          "name": "args_1",
+          "tensor": "t41"
+        },
+        {
+          "name": "args_2",
+          "tensor": "t31"
+        },
+        {
+          "name": "args_3",
+          "tensor": "t20"
+        }
+      ],
+      "outputs": [
+        {
+          "name": "output_0",
+          "tensor": "t42",
+          "dtype": "float32",
+          "shape": [
+            1,
+            1280,
+            16,
+            16
+          ]
+        }
+      ],
+      "phase": "denoise",
+      "step": 1,
+      "cpuMaxAbsErrors": [
+        4.38690185546875e-05
+      ]
+    },
+    {
+      "model": "graphs/unet-submod_8.tflite",
+      "signature": "serving_default",
+      "inputs": [
+        {
+          "name": "args_0",
+          "tensor": "t42"
+        },
+        {
+          "name": "args_1",
+          "tensor": "t32"
+        },
+        {
+          "name": "args_2",
+          "tensor": "t20"
+        }
+      ],
+      "outputs": [
+        {
+          "name": "output_0",
+          "tensor": "t43",
+          "dtype": "float32",
+          "shape": [
+            1,
+            256,
+            1280
+          ]
+        },
+        {
+          "name": "output_1",
+          "tensor": "t44",
+          "dtype": "float32",
+          "shape": [
+            1,
+            256,
+            1280
+          ]
+        },
+        {
+          "name": "output_2",
+          "tensor": "t45",
+          "dtype": "float32",
+          "shape": [
+            1,
+            1280,
+            16,
+            16
+          ]
+        }
+      ],
+      "phase": "denoise",
+      "step": 1,
+      "cpuMaxAbsErrors": [
+        3.814697265625e-06,
+        5.53131103515625e-05,
+        9.1552734375e-05
+      ]
+    },
+    {
+      "model": "graphs/unet-submod_9.tflite",
+      "signature": "serving_default",
+      "inputs": [
+        {
+          "name": "args_0",
+          "tensor": "t43"
+        },
+        {
+          "name": "args_1",
+          "tensor": "t44"
+        },
+        {
+          "name": "args_2",
+          "tensor": "t13"
+        },
+        {
+          "name": "args_3",
+          "tensor": "t45"
+        },
+        {
+          "name": "args_4",
+          "tensor": "t29"
+        },
+        {
+          "name": "args_5",
+          "tensor": "t20"
+        }
+      ],
+      "outputs": [
+        {
+          "name": "output_0",
+          "tensor": "t46",
+          "dtype": "float32",
+          "shape": [
+            1,
+            1280,
+            16,
+            16
+          ]
+        },
+        {
+          "name": "output_1",
+          "tensor": "t47",
+          "dtype": "float32",
+          "shape": [
+            1,
+            2560,
+            16,
+            16
+          ]
+        }
+      ],
+      "phase": "denoise",
+      "step": 1,
+      "cpuMaxAbsErrors": [
+        3.3855438232421875e-05,
+        5.340576171875e-05
+      ]
+    },
+    {
+      "model": "graphs/unet-submod_10.tflite",
+      "signature": "serving_default",
+      "inputs": [
+        {
+          "name": "args_0",
+          "tensor": "t46"
+        },
+        {
+          "name": "args_1",
+          "tensor": "t47"
+        },
+        {
+          "name": "args_2",
+          "tensor": "t13"
+        },
+        {
+          "name": "args_3",
+          "tensor": "t19"
+        }
+      ],
+      "outputs": [
+        {
+          "name": "output_0",
+          "tensor": "t48",
+          "dtype": "float32",
+          "shape": [
+            1,
+            1920,
+            16,
+            16
+          ]
+        },
+        {
+          "name": "output_1",
+          "tensor": "t49",
+          "dtype": "float32",
+          "shape": [
+            1,
+            1920,
+            16,
+            16
+          ]
+        }
+      ],
+      "phase": "denoise",
+      "step": 1,
+      "cpuMaxAbsErrors": [
+        1.239776611328125e-05,
+        8.392333984375e-05
+      ]
+    },
+    {
+      "model": "graphs/unet-submod_11.tflite",
+      "signature": "serving_default",
+      "inputs": [
+        {
+          "name": "args_0",
+          "tensor": "t48"
+        },
+        {
+          "name": "args_1",
+          "tensor": "t20"
+        },
+        {
+          "name": "args_2",
+          "tensor": "t49"
+        },
+        {
+          "name": "args_3",
+          "tensor": "t13"
+        }
+      ],
+      "outputs": [
+        {
+          "name": "output_0",
+          "tensor": "t50",
+          "dtype": "float32",
+          "shape": [
+            1,
+            256,
+            1280
+          ]
+        },
+        {
+          "name": "output_1",
+          "tensor": "t51",
+          "dtype": "float32",
+          "shape": [
+            1,
+            256,
+            1280
+          ]
+        },
+        {
+          "name": "output_2",
+          "tensor": "t52",
+          "dtype": "float32",
+          "shape": [
+            1,
+            1280,
+            16,
+            16
+          ]
+        }
+      ],
+      "phase": "denoise",
+      "step": 1,
+      "cpuMaxAbsErrors": [
+        2.726912498474121e-06,
+        9.1552734375e-05,
+        9.918212890625e-05
+      ]
+    },
+    {
+      "model": "graphs/unet-submod_12.tflite",
+      "signature": "serving_default",
+      "inputs": [
+        {
+          "name": "args_0",
+          "tensor": "t50"
+        },
+        {
+          "name": "args_1",
+          "tensor": "t51"
+        },
+        {
+          "name": "args_2",
+          "tensor": "t52"
+        },
+        {
+          "name": "args_3",
+          "tensor": "t21"
+        },
+        {
+          "name": "args_4",
+          "tensor": "t20"
+        },
+        {
+          "name": "args_5",
+          "tensor": "t13"
+        },
+        {
+          "name": "args_6",
+          "tensor": "t22"
+        }
+      ],
+      "outputs": [
+        {
+          "name": "output_0",
+          "tensor": "t53",
+          "dtype": "float32",
+          "shape": [
+            1,
+            1280,
+            32,
+            32
+          ]
+        },
+        {
+          "name": "output_1",
+          "tensor": "t54",
+          "dtype": "float32",
+          "shape": [
+            1,
+            1280,
+            32,
+            32
+          ]
+        }
+      ],
+      "phase": "denoise",
+      "step": 1,
+      "cpuMaxAbsErrors": [
+        1.8358230590820312e-05,
+        0.00018310546875
+      ]
+    },
+    {
+      "model": "graphs/unet-submod_13.tflite",
+      "signature": "serving_default",
+      "inputs": [
+        {
+          "name": "args_0",
+          "tensor": "t53"
+        },
+        {
+          "name": "args_1",
+          "tensor": "t20"
+        },
+        {
+          "name": "args_2",
+          "tensor": "t54"
+        },
+        {
+          "name": "args_3",
+          "tensor": "t13"
+        },
+        {
+          "name": "args_4",
+          "tensor": "t23"
+        },
+        {
+          "name": "args_5",
+          "tensor": "t24"
+        },
+        {
+          "name": "args_6",
+          "tensor": "t25"
+        },
+        {
+          "name": "args_7",
+          "tensor": "t26"
+        }
+      ],
+      "outputs": [
+        {
+          "name": "output_0",
+          "tensor": "t55",
+          "dtype": "float32",
+          "shape": [
+            1,
+            4,
+            64,
+            64
+          ]
+        }
+      ],
+      "phase": "denoise",
+      "step": 1,
+      "cpuMaxAbsErrors": [
+        9.298324584960938e-06
+      ]
+    },
+    {
+      "model": "graphs/step0-submod_0.tflite",
+      "signature": "serving_default",
+      "inputs": [
+        {
+          "name": "args_0",
+          "tensor": "t55"
+        },
+        {
+          "name": "args_1",
+          "tensor": "t15"
+        },
+        {
+          "name": "args_2",
+          "tensor": "t56"
+        }
+      ],
+      "outputs": [
+        {
+          "name": "output_0",
+          "tensor": "t57",
+          "dtype": "float32",
+          "shape": [
+            1,
+            4,
+            64,
+            64
+          ]
+        }
+      ],
+      "phase": "denoise",
+      "step": 1,
+      "cpuMaxAbsErrors": [
+        3.814697265625e-06
+      ]
+    },
+    {
+      "model": "graphs/vae-submod_0.tflite",
+      "signature": "serving_default",
+      "inputs": [
+        {
+          "name": "args_0",
+          "tensor": "t57"
+        }
+      ],
+      "outputs": [
+        {
+          "name": "output_0",
+          "tensor": "t58",
+          "dtype": "float32",
+          "shape": [
+            1,
+            3,
+            512,
+            512
+          ]
+        }
+      ],
+      "phase": "decode",
+      "step": 0,
+      "cpuMaxAbsErrors": [
+        9.238719940185547e-06
+      ]
+    }
+  ],
+  "output": "t58",
+  "files": {
+    "LICENSE.md": {
+      "bytes": 11852,
+      "sha256": "d6f6b1a4dce5c852bd6d7d9482d002baf0ccdb71e662250b73be9eec8764ee8d"
+    },
+    "SOURCE_MODEL_CARD.md": {
+      "bytes": 5900,
+      "sha256": "2482ac53e71baf0624ede7aca74122ef60e442360535105cd57bcc9d7138c22e"
+    },
+    "constants/t17.bin": {
+      "bytes": 4,
+      "sha256": "b438fd3a67fa223f053f24183a08ed2b94fd3d11d304e084199fe97ca190cf3d"
+    },
+    "graphs/clip0-submod_0.tflite": {
+      "bytes": 265711972,
+      "sha256": "805aab02d816df38ceb1232e4845a8bda5797e6b1a4056f6e9fda9a916949f38"
+    },
+    "graphs/clip0-submod_1.tflite": {
+      "bytes": 256201632,
+      "sha256": "d5730a2acb379bddbf68bb21c11afc54a77f0b6ee55d6e2e92077267314d3e61"
+    },
+    "graphs/clip0-submod_2.tflite": {
+      "bytes": 251997124,
+      "sha256": "7f78a45173f0648624e323b5c640d08a9093f7f12db84ca386934838dc25c8c3"
+    },
+    "graphs/clip0-submod_3.tflite": {
+      "bytes": 251997360,
+      "sha256": "ab8ef893d47fa4394495bf1af4b88e931558eccf225490fc0030c24452719463"
+    },
+    "graphs/clip0-submod_4.tflite": {
+      "bytes": 251997360,
+      "sha256": "9ea21c174466f38e6219a30fa7bc155a6636326b4680de656c646ee3d1fac5f3"
+    },
+    "graphs/clip0-submod_5.tflite": {
+      "bytes": 83989892,
+      "sha256": "f66e4bec3944d227a2282b9ce85ab610fc8e2039869c8447e2d9480bea9637b5"
+    },
+    "graphs/initial-submod_0.tflite": {
+      "bytes": 852,
+      "sha256": "aa0e70b7b149f719b9cb878337cfed2ad4285f52e976c16d1a23c673e725caf6"
+    },
+    "graphs/scale0-submod_0.tflite": {
+      "bytes": 852,
+      "sha256": "d610134f78dcf4b74846cf0014c413b0468f72c15b7b34738e2c89933e394617"
+    },
+    "graphs/step0-submod_0.tflite": {
+      "bytes": 2112,
+      "sha256": "2d577a37a35db739f95258041fdc49eb3893a4e570d9dec4758f0b91ad6f839f"
+    },
+    "graphs/unet-submod_0.tflite": {
+      "bytes": 238028468,
+      "sha256": "3bb38318a71fe2596a79bdded632bc4945e3e48a15b64defe3e6b989ceb9b932"
+    },
+    "graphs/unet-submod_1.tflite": {
+      "bytes": 263014408,
+      "sha256": "89bcf3d41dd6eb248fee54edfba39129335870f94e252e19f7db2cf4b70f9061"
+    },
+    "graphs/unet-submod_10.tflite": {
+      "bytes": 213860688,
+      "sha256": "bcd8d954087e40ec1e621aa7200b398b89ca550aa92bedca32bc40ef0c4e1322"
+    },
+    "graphs/unet-submod_11.tflite": {
+      "bytes": 220372472,
+      "sha256": "13a06dc29608abf65f32bac7797971d5a1878a275b3e130d79b4ee522d9484ba"
+    },
+    "graphs/unet-submod_12.tflite": {
+      "bytes": 249630508,
+      "sha256": "82a433d9661e6d8952850fde40e7b5f3b851e07af223d45b147d98658763d154"
+    },
+    "graphs/unet-submod_13.tflite": {
+      "bytes": 262039384,
+      "sha256": "ad918a956ac21e677300d24e314757188b8421fc5d910ff1d275b00d94bbfa3d"
+    },
+    "graphs/unet-submod_2.tflite": {
+      "bytes": 266309324,
+      "sha256": "d3e56d41e4f95abdc834ce6e32d20a270ff853c9013ea144ad4e5298d9a761b9"
+    },
+    "graphs/unet-submod_3.tflite": {
+      "bytes": 249150356,
+      "sha256": "dd609fff9b1dd63a24fde45bc1a8167f1f2a242440a867670d326e378d813198"
+    },
+    "graphs/unet-submod_4.tflite": {
+      "bytes": 266310076,
+      "sha256": "ad8a0f6abcc54172e534878c9edde3aaae51dacc254c3b59aed0598230229ada"
+    },
+    "graphs/unet-submod_5.tflite": {
+      "bytes": 249137488,
+      "sha256": "b10e71767836cf903158b9a7e2bcd34e17583aea6c65843a4c3d5877ebbf4014"
+    },
+    "graphs/unet-submod_6.tflite": {
+      "bytes": 255672304,
+      "sha256": "0f69d6c1080a25c687af74ae19e314aa1c65a13edc3130534fa876cd63359d8f"
+    },
+    "graphs/unet-submod_7.tflite": {
+      "bytes": 209798788,
+      "sha256": "1422022fe4d92982ff50bad665584c64f4c106222d017e59f829b5136d845545"
+    },
+    "graphs/unet-submod_8.tflite": {
+      "bytes": 262267008,
+      "sha256": "3f3f3ea66815967decacb5e8751387b7d8324fb95cb598751bb27d39062a78a2"
+    },
+    "graphs/unet-submod_9.tflite": {
+      "bytes": 259718936,
+      "sha256": "8a6533c3dbc083b01f91777bbd93508b1b644fe535294c980ef9b1a0a3fabc73"
+    },
+    "graphs/vae-submod_0.tflite": {
+      "bytes": 198244644,
+      "sha256": "87709a2fab6a1cca7ae9b27c1bfbed65e154529704149b6f34be6be0753add33"
+    },
+    "reference.png": {
+      "bytes": 415283,
+      "sha256": "92df40d9c46ccb5267014f8365fc5a667fb9dc94f139aa88eb66c0b68c4be531"
+    },
+    "tokenizer0/bpe.json": {
+      "bytes": 2115726,
+      "sha256": "843593bef8ca3df6bc39431f8aacfe3f4b1b7d970671a4fb457e5c7e4fa453d2"
+    }
+  }
+}
