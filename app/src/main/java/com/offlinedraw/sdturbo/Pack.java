@@ -2,9 +2,10 @@
 package com.offlinedraw.sdturbo;
 
 import android.content.Context;
+import android.database.Cursor;
 import android.net.Uri;
 import android.os.Environment;
-import androidx.documentfile.DocumentFile;
+import android.provider.DocumentsContract;
 import org.json.JSONObject;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -220,37 +221,51 @@ public final class Pack {
     }
 
     public int importTree(Uri tree, Worker w) throws Exception {
-        DocumentFile t = DocumentFile.fromTreeUri(ctx, tree);
-        if (t == null) throw new IOException("cannot open that folder");
         HashMap<String, String> byName = new HashMap<>();
         for (String rel : sizes.keySet()) byName.put(new File(rel).getName(), rel);
         int[] n = {0};
-        walk(t, byName, w, n, 0);
+        walk(tree, DocumentsContract.getTreeDocumentId(tree), byName, w, n, 0);
         return n[0];
     }
 
-    private void walk(DocumentFile dir, HashMap<String, String> byName, Worker w, int[] n, int depth) throws Exception {
+    private void walk(Uri tree, String parentId, HashMap<String, String> byName,
+                      Worker w, int[] n, int depth) throws Exception {
         if (depth > 3) return;
-        for (DocumentFile f : dir.listFiles()) {
-            if (w.cancel) return;
-            if (f.isDirectory()) { walk(f, byName, w, n, depth + 1); continue; }
-            String rel = byName.get(f.getName());
-            if (rel == null) continue;
-            File dst = new File(root, rel);
-            if (dst.isFile() && dst.length() == sizes.get(rel)) continue;
-            dst.getParentFile().mkdirs();
-            w.progress("importing " + f.getName(), -1);
-            InputStream in = ctx.getContentResolver().openInputStream(f.getUri());
-            OutputStream out = new FileOutputStream(dst);
-            copy(in, out);
-            close(in);
-            close(out);
-            if (dst.length() != sizes.get(rel) || !sha256(dst).equals(hashes.get(rel))) {
-                dst.delete();
-                throw new IOException("corrupt copy of " + f.getName());
+        Uri children = DocumentsContract.buildChildDocumentsUriUsingTree(tree, parentId);
+        String[] cols = {DocumentsContract.Document.COLUMN_DOCUMENT_ID,
+                         DocumentsContract.Document.COLUMN_DISPLAY_NAME,
+                         DocumentsContract.Document.COLUMN_MIME_TYPE};
+        Cursor c = ctx.getContentResolver().query(children, cols, null, null, null);
+        if (c == null) return;
+        try {
+            while (c.moveToNext()) {
+                if (w.cancel) return;
+                String id = c.getString(0), name = c.getString(1), mime = c.getString(2);
+                if (DocumentsContract.Document.MIME_TYPE_DIR.equals(mime)) {
+                    walk(tree, id, byName, w, n, depth + 1);
+                    continue;
+                }
+                String rel = byName.get(name);
+                if (rel == null) continue;
+                File dst = new File(root, rel);
+                if (dst.isFile() && dst.length() == sizes.get(rel)) continue;
+                dst.getParentFile().mkdirs();
+                w.progress("importing " + name, -1);
+                Uri doc = DocumentsContract.buildDocumentUriUsingTree(tree, id);
+                InputStream in = ctx.getContentResolver().openInputStream(doc);
+                OutputStream out = new FileOutputStream(dst);
+                copy(in, out);
+                close(in);
+                close(out);
+                if (dst.length() != sizes.get(rel) || !sha256(dst).equals(hashes.get(rel))) {
+                    dst.delete();
+                    throw new IOException("corrupt copy of " + name);
+                }
+                n[0]++;
+                w.log("imported " + rel);
             }
-            n[0]++;
-            w.log("imported " + rel);
+        } finally {
+            c.close();
         }
     }
 
