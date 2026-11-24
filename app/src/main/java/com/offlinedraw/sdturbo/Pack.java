@@ -147,12 +147,7 @@ public final class Pack {
         File part = new File(dst.getAbsolutePath() + ".part");
         long have = part.isFile() ? part.length() : 0;
         if (have > want) { part.delete(); have = 0; }
-        HttpURLConnection c = (HttpURLConnection) new URL(HF + rel).openConnection();
-        c.setConnectTimeout(30000);
-        c.setReadTimeout(60000);
-        c.setInstanceFollowRedirects(true);
-        c.setRequestProperty("User-Agent", "OfflineDraw/1.0");
-        if (have > 0) c.setRequestProperty("Range", "bytes=" + have + "-");
+        HttpURLConnection c = open(rel, have);
         int code = c.getResponseCode();
         if (code != 200 && code != 206) throw new IOException("HTTP " + code + " for " + rel);
         RandomAccessFile raf = new RandomAccessFile(part, "rw");
@@ -181,6 +176,32 @@ public final class Pack {
         if (!part.renameTo(dst)) throw new IOException("rename failed " + rel);
         w.log("verified " + rel + " (" + mb(want) + ")");
         return want;
+    }
+
+    public static final String MIRROR = "https://github.com/vishala5000/offlinedraw-sdturbo/releases/download/model-pack/";
+
+    private HttpURLConnection open(String rel, long have) throws IOException {
+        String[] us = {MIRROR + new File(rel).getName(), HF + rel};
+        IOException last = null;
+        for (String u : us) {
+            HttpURLConnection c = null;
+            try {
+                c = (HttpURLConnection) new URL(u).openConnection();
+                c.setConnectTimeout(30000);
+                c.setReadTimeout(60000);
+                c.setInstanceFollowRedirects(true);
+                c.setRequestProperty("User-Agent", "OfflineDraw/1.0");
+                if (have > 0) c.setRequestProperty("Range", "bytes=" + have + "-");
+                int code = c.getResponseCode();
+                if (code == 200 || code == 206) return c;
+                last = new IOException("HTTP " + code + " " + u);
+                c.disconnect();
+            } catch (IOException e) {
+                last = e;
+                if (c != null) c.disconnect();
+            }
+        }
+        throw (last == null) ? new IOException("no source for " + rel) : last;
     }
 
     public String verify(Worker w) throws Exception {
