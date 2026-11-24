@@ -55,7 +55,7 @@ jobs:
           cache-disabled: true
 
       - name: Build release APK (unsigned)
-        run: gradle --no-daemon :app:assembleRelease
+        run: gradle --no-daemon :app:assembleRelease --stacktrace
 
       - name: zipalign + apksigner (key generated here, no secrets needed)
         run: |
